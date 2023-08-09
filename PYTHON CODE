@@ -1,0 +1,34 @@
+import difflib
+
+# List of correct words (you can expand this list)
+correct_words = ["hello", "world", "python", "programming", "example", "code"]
+
+def autocorrect(word):
+    closest_match = difflib.get_close_matches(word, correct_words, n=1)
+    if closest_match:
+        return closest_match[0]
+    else:
+        return None
+
+def autocorrect_sentence(sentence):
+    words = sentence.split()
+    corrected_sentence = [autocorrect(word) or word for word in words]
+    return " ".join(corrected_sentence)
+
+def main():
+    while True:
+        user_input = input("Enter a word or sentence (or 'exit' to quit): ")
+        if user_input.lower() == 'exit':
+            break
+        if ' ' in user_input:
+            corrected = autocorrect_sentence(user_input)
+            print("Corrected sentence:", corrected)
+        else:
+            corrected = autocorrect(user_input)
+            if corrected:
+                print("Corrected word:", corrected)
+            else:
+                print("Word not found in dictionary.")
+
+if __name__ == "__main__":
+    main()
